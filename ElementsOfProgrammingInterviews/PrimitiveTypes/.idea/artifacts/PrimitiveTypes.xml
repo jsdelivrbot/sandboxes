@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="PrimitiveTypes">
+    <output-path>$PROJECT_DIR$/out/artifacts/PrimitiveTypes</output-path>
+    <root id="archive" name="PrimitiveTypes.jar" />
+  </artifact>
+</component>
