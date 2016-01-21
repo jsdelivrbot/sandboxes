@@ -2,3 +2,5 @@ javascript/node_modules/
 build
 .gradle
 *.log
+**/obj
+**/bin
