@@ -27,17 +27,16 @@ public class LambdaExpressionsUnitTest {
 	}
 
 	@Test()
-	public void streamsTest() {
-		try {
-			List<String> myList =
-					Arrays.asList("a1", "a2", "b1", "c2", "c1");
+	public void streamsTest() throws Exception {
+		List<String> myList =
+				Arrays.asList("a1", "a2", "b1", "c2", "c1");
 
-			myList.
-					stream()
-					.filter(s -> s.startsWith("c"))
-					.map(String::toUpperCase)
-					.sorted()
-					.forEach(System.out::println);
+		myList.
+				stream()
+				.filter(s -> s.startsWith("c"))
+				.map(String::toUpperCase)
+				.sorted()
+				.forEach(System.out::println);
 //			String[] names = {"Sam","Pamela", "Dave", "Pascal", "Erik"};
 //			List<String> filteredNames = stream(names)
 //					.filter(c -> c.contains("am"))
@@ -49,9 +48,5 @@ public class LambdaExpressionsUnitTest {
 //							.sorted(comparing(Transaction::getValue).reversed())
 //							.map(Transaction::getId)
 //							.collect(toList());
-		} catch (Exception ex) {
-			System.out.println("Exception occurred running streamsTest(): " + ex.getStackTrace());
-			Assert.fail();
-		}
 	}
 }
