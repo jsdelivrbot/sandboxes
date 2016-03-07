@@ -5,7 +5,7 @@ import Winner from './Winner';
 import Vote from './Vote';
 import * as actionCreators from '../action_creators';
 
-
+//Voting is the "dumb" or "pure" component, fully driven by the props it is given.
 export const Voting = React.createClass({
   mixins: [PureRenderMixin],
   render: function () {
@@ -28,6 +28,8 @@ function mapStateToProps(state) {
 
 connect(mapStateToProps)(Voting);
 
+//VotingContainer is the "smart" or "connected" component, wrapping the pure component with logic that will keep
+//it in sync with the changing state of the Redux store
 export const VotingContainer = connect(
   mapStateToProps,
   actionCreators
