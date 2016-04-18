@@ -44,6 +44,8 @@ const common = {
 
 if (TARGET === 'start' || !TARGET) {
     module.exports = merge(common, {
+        // See https://webpack.github.io/docs/configuration.html#devtool for a list of sourcemap
+        // configuration options
         devtool: 'eval-source-map',
         devServer: {
             // Enable history API fallback so HTML5 History API based
@@ -91,13 +93,15 @@ if (TARGET === 'start' || !TARGET) {
 
 if (TARGET === 'build' || TARGET === 'stats') {
     module.exports = merge(common, {
-        
+        // See https://webpack.github.io/docs/configuration.html#devtool for a list of sourcemap
+        // configuration options.
+        devtool: 'source-map',
         // Define vendor entry point needed for splitting
         entry: {
           // Set up an entry chunk for our vendor bundle.
           // You can filter out dependencies here if needed with
           // '.filter(...)'
-          vendor: Object.keys(pkg.dependencies)  
+          vendor: Object.keys(pkg.dependencies)
         },
         output: {
           path: PATHS.build,
