@@ -3,8 +3,8 @@ package org.mybiz;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
-@Path("greeting")
-public class Greeter {
+@Path("/greeting")
+public class GreeterService {
 
     @GET
     public String sayHi() {
