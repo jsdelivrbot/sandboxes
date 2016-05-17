@@ -82,8 +82,8 @@ limitations under the License.
     <bean id="jaxbJsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider"/>
 
     <!-- Resource classes -->
-    <bean id="greeterService" class="org.mybiz.GreeterService"/>
-    <bean id="employeeService" class="org.mybiz.EmployeeService"/>
+    <bean id="greeterService" class="org.example.service.GreeterService"/>
+    <bean id="employeeService" class="org.example.service.EmployeeService"/>
 
 
 </beans>

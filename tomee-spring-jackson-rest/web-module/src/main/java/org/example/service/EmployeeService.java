@@ -1,4 +1,6 @@
-package org.mybiz;
+package org.example.service;
+
+import org.example.model.Employee;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

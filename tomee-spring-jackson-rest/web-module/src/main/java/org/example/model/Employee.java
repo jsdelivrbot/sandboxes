@@ -1,4 +1,4 @@
-package org.mybiz;
+package org.example.model;
 
 public class Employee {
 

@@ -18,6 +18,12 @@ dependencies {
     compile group: 'com.fasterxml.jackson.jaxrs', name: 'jackson-jaxrs-json-provider', version: '2.3.2'
     compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-jaxb-annotations', version: '2.4.0'
 
+    compile 'io.katharsis:katharsis-core:2.3.0'
+    compile 'io.katharsis:katharsis-servlet:2.3.0'
+
+    compile 'com.google.guava:guava:19.0'
+
+    compile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
 
     providedCompile group: 'org.springframework', name: 'spring-web', version: '3.2.17.RELEASE'
     providedCompile group: 'org.springframework', name: 'spring-beans', version: '3.2.17.RELEASE'

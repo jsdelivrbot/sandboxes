@@ -1,4 +1,7 @@
-package org.mybiz;
+package org.example.service;
+
+import org.example.model.Employee;
+import org.example.model.Organization;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -18,6 +21,9 @@ public class OrganizationService {
         emps.add(emp1);
         emps.add(emp2);
 
-        return new Organization(3, emps);
+        Organization org = new Organization();
+        org.setId((long)3);
+        org.setEmployees(emps);
+        return org;
     }
 }

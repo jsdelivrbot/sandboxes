@@ -31,4 +31,20 @@
         <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>SampleKatharsisServlet</servlet-name>
+        <servlet-class>org.example.katharsis.SampleKatharsisServlet</servlet-class>
+        <init-param>
+            <param-name>katharsis.config.core.resource.package</param-name>
+            <param-value>org.example</param-value>
+        </init-param>
+        <init-param>
+            <param-name>katharsis.config.core.resource.domain</param-name>
+            <param-value>http://localhost:8080</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SampleKatharsisServlet</servlet-name>
+        <url-pattern>/kath/v1/*</url-pattern>
+    </servlet-mapping>
 </web-app>
