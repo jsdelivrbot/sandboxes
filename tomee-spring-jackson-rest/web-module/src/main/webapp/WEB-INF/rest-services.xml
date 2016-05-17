@@ -43,13 +43,14 @@ limitations under the License.
     <!-- <import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml" /> -->
     <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
-    <jaxrs:server id="commonRestService" address="/api/">
+    <jaxrs:server id="commonRestService" address="/api">
         <jaxrs:serviceBeans>
             <ref bean="greeterService" />
             <ref bean="employeeService" />
         </jaxrs:serviceBeans>
 
         <jaxrs:providers>
+                <ref bean="jaxbJsonProvider"/>
             <!--	<ref bean="authenticationFilter" />
                   <ref bean="authorizationFilter" />
                   <ref bean="systemExceptionMapper" />
@@ -67,10 +68,18 @@ limitations under the License.
             <entry key="xml" value="application/xml" />
             <entry key="json" value="application/json" />
         </jaxrs:extensionMappings>
+
+        <jaxrs:inInterceptors>
+            <bean class="org.apache.cxf.jaxrs.provider.jsonp.JsonpInInterceptor"/>
+        </jaxrs:inInterceptors>
+        <jaxrs:outInterceptors>
+            <bean class="org.apache.cxf.jaxrs.provider.jsonp.JsonpPreStreamInterceptor"/>
+            <bean class="org.apache.cxf.jaxrs.provider.jsonp.JsonpPostStreamInterceptor"/>
+        </jaxrs:outInterceptors>
     </jaxrs:server>
 
 
-
+    <bean id="jaxbJsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider"/>
 
     <!-- Resource classes -->
     <bean id="greeterService" class="org.mybiz.GreeterService"/>
