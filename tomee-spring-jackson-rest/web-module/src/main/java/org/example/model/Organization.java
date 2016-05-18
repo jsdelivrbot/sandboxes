@@ -3,6 +3,7 @@ package org.example.model;
 
 import io.katharsis.resource.annotations.JsonApiId;
 import io.katharsis.resource.annotations.JsonApiResource;
+import io.katharsis.resource.annotations.JsonApiToMany;
 
 import java.util.Collection;
 
@@ -11,6 +12,7 @@ public class Organization {
 
     @JsonApiId
     private Long id;
+    @JsonApiToMany
     private Collection<Employee> employees;
 
     public Long getId() {
