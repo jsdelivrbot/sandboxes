@@ -1,5 +1,6 @@
-package demo;
+package demo.jpa.spring;
 
+import demo.Customer;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
