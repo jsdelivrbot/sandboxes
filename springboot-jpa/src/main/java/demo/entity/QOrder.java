@@ -1,4 +1,4 @@
-package demo;
+package demo.entity;
 
 import com.mysema.query.types.Path;
 import com.mysema.query.types.PathMetadata;

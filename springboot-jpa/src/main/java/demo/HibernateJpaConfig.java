@@ -15,50 +15,50 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-//@Configuration
-//@EnableTransactionManagement
+@Configuration
+@EnableTransactionManagement
 public class HibernateJpaConfig {
 
-//	@Bean
-//	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-//		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-//		em.setDataSource(dataSource());
-//		em.setPackagesToScan("demo");
-//
-//		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-//		em.setJpaVendorAdapter(vendorAdapter);
-//		em.setJpaProperties(additionalProperties());
-//
-//		return em;
-//	}
-//
-//	@Bean
-//	public DataSource dataSource(){
-//		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//		dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-//		dataSource.setUrl("jdbc:sqlserver://ROCKMAN-PC:1433;databaseName=SpringBoot;");
-//		dataSource.setUsername( "sa" );
-//		dataSource.setPassword( "blue" );
-//		return dataSource;
-//	}
-//
-//	@Bean
-//	public PlatformTransactionManager transactionManager(EntityManagerFactory emf){
-//		JpaTransactionManager transactionManager = new JpaTransactionManager();
-//		transactionManager.setEntityManagerFactory(emf);
-//
-//		return transactionManager;
-//	}
-//
-//	@Bean
-//	public PersistenceExceptionTranslationPostProcessor exceptionTranslation(){
-//		return new PersistenceExceptionTranslationPostProcessor();
-//	}
-//
-//	Properties additionalProperties() {
-//		Properties properties = new Properties();
-//		properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
-//		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.SQLServerDialect");
-//		return properties;
-//	}
+	@Bean
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+		em.setDataSource(dataSource());
+		em.setPackagesToScan("demo");
+
+		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+		em.setJpaVendorAdapter(vendorAdapter);
+		em.setJpaProperties(additionalProperties());
+
+		return em;
+	}
+
+	@Bean
+	public DataSource dataSource(){
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		dataSource.setUrl("jdbc:sqlserver://ROCKMAN-PC:1433;databaseName=SpringBoot;");
+		dataSource.setUsername( "sa" );
+		dataSource.setPassword( "blue" );
+		return dataSource;
+	}
+
+	@Bean
+	public PlatformTransactionManager transactionManager(EntityManagerFactory emf){
+		JpaTransactionManager transactionManager = new JpaTransactionManager();
+		transactionManager.setEntityManagerFactory(emf);
+
+		return transactionManager;
+	}
+
+	@Bean
+	public PersistenceExceptionTranslationPostProcessor exceptionTranslation(){
+		return new PersistenceExceptionTranslationPostProcessor();
+	}
+
+	Properties additionalProperties() {
+		Properties properties = new Properties();
+		//properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.SQLServerDialect");
+		return properties;
+	}
 }
