@@ -10,8 +10,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.util.StopWatch;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -19,6 +21,9 @@ import java.util.Collection;
 public class Application {
 
 	private static final Logger log = LoggerFactory.getLogger(Application.class);
+
+	@Inject
+	private LocalContainerEntityManagerFactoryBean b;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class);
@@ -29,7 +34,7 @@ public class Application {
 		return (args) -> {
 
 			//performanceTestSpringJpa(customerRepository, orderRepository);
-
+			//performanceTestHibernate();
 		};
 	}
 
@@ -37,6 +42,8 @@ public class Application {
 
 		StopWatch sw = new StopWatch();
 		sw.start("Create records");
+		log.info("performanceTestSpringJpa: Starting save of 100,000 records");
+
 		//Inserting individually runs at least 3x slower...
 //		for (int i = 0; i < 100000; i++) {
 //			customerRepository.save(new Customer("1", "1"));
@@ -55,9 +62,26 @@ public class Application {
 		log.info("Total time to load 100,000 records: " + sw.getLastTaskTimeMillis() + " ms");
 	}
 
-	private void performanceTestHibernate() {
-
-	}
+//	private void performanceTestHibernate() {
+//		EntityManagerFactory factory = Persistence.createEntityManagerFactory("CustomerService");
+//		EntityManager manager = factory.createEntityManager();
+//		CustomerService cs = new CustomerService(manager);
+//
+//		StopWatch sw = new StopWatch();
+//		sw.start("Create records");
+//		log.info("performanceTestHibernate: Starting save of 100,000 records");
+//
+//		for (int i = 0; i < 100000; i++) {
+//			cs.createCustomer(new Customer("1", "1"));
+//		}
+//		sw.stop();
+//		log.info("Total time to save 100,000 records: " + sw.getLastTaskTimeMillis() + " ms");
+//
+//		sw.start("Load records");
+//		List<Customer> customers = cs.findAllCustomers();
+//		sw.stop();
+//		log.info("Total time to load 100,000 records: " + sw.getLastTaskTimeMillis() + " ms");
+//	}
 
 	private void simpleDemo(CustomerRepository customerRepository, OrderRepository orderRepository) {
 		// save a couple of customers
