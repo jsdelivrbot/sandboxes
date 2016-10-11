@@ -1,6 +1,7 @@
 package demo.entity;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 public class Customer {
@@ -18,6 +19,23 @@ public class Customer {
 	public Customer(String firstName, String lastName) {
 		this.firstName = firstName;
 		this.lastName = lastName;
+	}
+
+	public Customer(String firstName, String lastName, Collection<Personality> personalities) {
+		this(firstName, lastName);
+		this.personalities = personalities;
+	}
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(
+			name = "CustomerPersonality",
+			joinColumns = @JoinColumn(name = "CustomerId"),
+			inverseJoinColumns = @JoinColumn(name = "PersonalityId")
+	)
+	private Collection<Personality> personalities;
+
+	public Collection<Personality> getPersonalities() {
+		return personalities;
 	}
 
 	@Override
