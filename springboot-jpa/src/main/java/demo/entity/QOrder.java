@@ -1,16 +1,17 @@
 package demo.entity;
 
-import com.mysema.query.types.Path;
-import com.mysema.query.types.PathMetadata;
-import com.mysema.query.types.path.DateTimePath;
-import com.mysema.query.types.path.EntityPathBase;
-import com.mysema.query.types.path.NumberPath;
-import com.mysema.query.types.path.StringPath;
+
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.DateTimePath;
+import com.querydsl.core.types.dsl.EntityPathBase;
+import com.querydsl.core.types.dsl.NumberPath;
+import com.querydsl.core.types.dsl.StringPath;
 
 import javax.annotation.Generated;
 import java.time.ZonedDateTime;
 
-import static com.mysema.query.types.PathMetadataFactory.forVariable;
+import static com.querydsl.core.types.PathMetadataFactory.forVariable;
+
 
 @Generated("com.mysema.query.codegen.EntitySerializer")
 public class QOrder extends EntityPathBase<Order> {
@@ -43,8 +44,8 @@ public class QOrder extends EntityPathBase<Order> {
 		super(path.getType(), path.getMetadata());
 	}
 
-	public QOrder(PathMetadata<?> metadata) {
-		super(Order.class, metadata);
-	}
+	//public QOrder(PathMetadata<?> metadata) {
+//		super(Order.class, metadata);
+//	}
 
 }

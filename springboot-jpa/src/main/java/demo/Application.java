@@ -1,40 +1,60 @@
 package demo;
 
+import com.google.common.collect.Lists;
 import demo.entity.Customer;
 import demo.entity.Order;
+import demo.entity.Personality;
 import demo.jpa.spring.CustomerRepository;
 import demo.jpa.spring.OrderRepository;
+import demo.jpa.spring.PersonalityRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.util.StopWatch;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.inject.Inject;
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.Collection;
 
+@RestController
 @SpringBootApplication
+@EnableTransactionManagement
 public class Application {
 
 	private static final Logger log = LoggerFactory.getLogger(Application.class);
 
-	@Inject
-	private LocalContainerEntityManagerFactoryBean b;
+	@RequestMapping("/")
+	String home() {
+		return "Hello World!";
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class);
 	}
 
 	@Bean
-	public CommandLineRunner demo(CustomerRepository customerRepository, OrderRepository orderRepository) {
+	public CommandLineRunner demo(PlatformTransactionManager manager,
+								  CustomerRepository customerRepository,
+								  PersonalityRepository personalityRepository) {
 		return (args) -> {
-
-			//performanceTestSpringJpa(customerRepository, orderRepository);
-			//performanceTestHibernate();
+			junctionDemo(manager, customerRepository, personalityRepository);
 		};
 	}
 
@@ -62,26 +82,43 @@ public class Application {
 		log.info("Total time to load 100,000 records: " + sw.getLastTaskTimeMillis() + " ms");
 	}
 
-//	private void performanceTestHibernate() {
-//		EntityManagerFactory factory = Persistence.createEntityManagerFactory("CustomerService");
-//		EntityManager manager = factory.createEntityManager();
-//		CustomerService cs = new CustomerService(manager);
-//
-//		StopWatch sw = new StopWatch();
-//		sw.start("Create records");
-//		log.info("performanceTestHibernate: Starting save of 100,000 records");
-//
-//		for (int i = 0; i < 100000; i++) {
-//			cs.createCustomer(new Customer("1", "1"));
+	//@Transactional(transactionManager = "PlatformTransactionManager")
+	private void junctionDemo(PlatformTransactionManager manager,
+							  CustomerRepository customerRepository, PersonalityRepository personalityRepository) {
+		Iterable<Personality> personalities = personalityRepository.findAll();
+		ArrayList<Personality> personalitiesToAdd = Lists.newArrayList(personalities);
+
+		Collection<Customer> newCustomers = new ArrayList<>();
+		for (int i = 0; i < 10; i++) {
+
+			Customer customerToAdd = new Customer(Integer.toString(i), Integer.toString(i),
+					personalitiesToAdd);
+			newCustomers.add(customerToAdd);
+		}
+		customerRepository.save(newCustomers);
+
+		TransactionTemplate transactionTemplate = new TransactionTemplate(manager);
+		transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+			@Override
+			protected void doInTransactionWithoutResult(TransactionStatus status) {
+				Iterable<Customer> retrievedCustomers = customerRepository.findAll();
+				for (Customer customer : retrievedCustomers) {
+					log.info("Personalities: ");
+					for (Personality personality : customer.getPersonalities()) {
+						log.info("	" + personality.toString());
+					}
+				}
+			}
+		});
+
+//		Iterable<Customer> retrievedCustomers = customerRepository.findAll();
+//		for (Customer customer : retrievedCustomers) {
+//			log.info("Personalities: ");
+//			for (Personality personality : customer.getPersonalities()) {
+//				log.info("	" + personality.toString());
+//			}
 //		}
-//		sw.stop();
-//		log.info("Total time to save 100,000 records: " + sw.getLastTaskTimeMillis() + " ms");
-//
-//		sw.start("Load records");
-//		List<Customer> customers = cs.findAllCustomers();
-//		sw.stop();
-//		log.info("Total time to load 100,000 records: " + sw.getLastTaskTimeMillis() + " ms");
-//	}
+	}
 
 	private void simpleDemo(CustomerRepository customerRepository, OrderRepository orderRepository) {
 		// save a couple of customers
@@ -126,5 +163,38 @@ public class Application {
 			log.info(bauer.toString());
 		}
 		log.info("");
+	}
+
+	@Bean
+	public DataSource dataSource() {
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		dataSource.setUrl("jdbc:sqlserver://ROCKMAN-PC:1433;databaseName=SpringBoot;");
+		dataSource.setUsername( "sa" );
+		dataSource.setPassword( "blue" );
+		return dataSource;
+	}
+
+	@Bean
+	public EntityManagerFactory entityManagerFactory() {
+
+		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+		vendorAdapter.setGenerateDdl(false);
+
+		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+		factory.setJpaVendorAdapter(vendorAdapter);
+		factory.setPackagesToScan("demo");
+		factory.setDataSource(dataSource());
+		factory.afterPropertiesSet();
+
+		return factory.getObject();
+	}
+
+	@Bean
+	public PlatformTransactionManager transactionManager() {
+
+		JpaTransactionManager txManager = new JpaTransactionManager();
+		txManager.setEntityManagerFactory(entityManagerFactory());
+		return txManager;
 	}
 }
