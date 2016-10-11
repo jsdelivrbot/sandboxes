@@ -13,7 +13,7 @@ public class Customer {
     private String firstName;
     @Column(name = "lastname")
     private String lastName;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "CustomerPersonality",
             joinColumns = @JoinColumn(name = "CustomerId"),

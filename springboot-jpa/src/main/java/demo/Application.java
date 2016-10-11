@@ -49,14 +49,14 @@ public class Application {
 		SpringApplication.run(Application.class);
 	}
 
-	@Bean
-	public CommandLineRunner demo(PlatformTransactionManager manager,
-								  CustomerRepository customerRepository,
-								  PersonalityRepository personalityRepository) {
-		return (args) -> {
-			junctionDemo(manager, customerRepository, personalityRepository);
-		};
-	}
+//	@Bean
+//	public CommandLineRunner demo(PlatformTransactionManager manager,
+//								  CustomerRepository customerRepository,
+//								  PersonalityRepository personalityRepository) {
+//		return (args) -> {
+//			junctionDemo(manager, customerRepository, personalityRepository);
+//		};
+//	}
 
 	private void performanceTestSpringJpa(CustomerRepository customerRepository, OrderRepository orderRepository) {
 
@@ -110,60 +110,52 @@ public class Application {
 				}
 			}
 		});
+	}
 
-//		Iterable<Customer> retrievedCustomers = customerRepository.findAll();
-//		for (Customer customer : retrievedCustomers) {
-//			log.info("Personalities: ");
-//			for (Personality personality : customer.getPersonalities()) {
-//				log.info("	" + personality.toString());
-//			}
+//	private void simpleDemo(CustomerRepository customerRepository, OrderRepository orderRepository) {
+//		// save a couple of customers
+//		customerRepository.save(new Customer("Jack", "Bauer"));
+//		customerRepository.save(new Customer("Chloe", "O'Brian"));
+//		customerRepository.save(new Customer("Kim", "Bauer"));
+//		customerRepository.save(new Customer("David", "Palmer"));
+//		customerRepository.save(new Customer("Michelle", "Dessler"));
+//
+//		orderRepository.save(new Order(1, "test order1"));
+//		orderRepository.save(new Order(2, "test order2"));
+//		orderRepository.save(new Order(3, "test order3"));
+//		orderRepository.save(new Order(4, "test order4"));
+//
+//		// fetch all customers
+//		log.info("Customers found with findAll():");
+//		log.info("-------------------------------");
+//		for (Customer customer : customerRepository.findAll()) {
+//			log.info(customer.toString());
 //		}
-	}
-
-	private void simpleDemo(CustomerRepository customerRepository, OrderRepository orderRepository) {
-		// save a couple of customers
-		customerRepository.save(new Customer("Jack", "Bauer"));
-		customerRepository.save(new Customer("Chloe", "O'Brian"));
-		customerRepository.save(new Customer("Kim", "Bauer"));
-		customerRepository.save(new Customer("David", "Palmer"));
-		customerRepository.save(new Customer("Michelle", "Dessler"));
-
-		orderRepository.save(new Order(1, "test order1"));
-		orderRepository.save(new Order(2, "test order2"));
-		orderRepository.save(new Order(3, "test order3"));
-		orderRepository.save(new Order(4, "test order4"));
-
-		// fetch all customers
-		log.info("Customers found with findAll():");
-		log.info("-------------------------------");
-		for (Customer customer : customerRepository.findAll()) {
-			log.info(customer.toString());
-		}
-		log.info("");
-
-		// fetch an individual customer by ID
-		Customer customer = customerRepository.findOne(1L);
-		log.info("Customer found with findOne(1L):");
-		log.info("--------------------------------");
-		log.info(customer.toString());
-		log.info("");
-
-		// fetch customers by last name
-		log.info("Customer found with findByLastName('Bauer'):");
-		log.info("--------------------------------------------");
-		for (Customer bauer : customerRepository.findByLastName("Bauer")) {
-			log.info(bauer.toString());
-		}
-		log.info("");
-
-		// fetch customers by last name
-		log.info("Customer found with findByFirstName('Kim'):");
-		log.info("--------------------------------------------");
-		for (Customer bauer : customerRepository.findByFirstName("Kim")) {
-			log.info(bauer.toString());
-		}
-		log.info("");
-	}
+//		log.info("");
+//
+//		// fetch an individual customer by ID
+//		Customer customer = customerRepository.findOne(1L);
+//		log.info("Customer found with findOne(1L):");
+//		log.info("--------------------------------");
+//		log.info(customer.toString());
+//		log.info("");
+//
+//		// fetch customers by last name
+//		log.info("Customer found with findByLastName('Bauer'):");
+//		log.info("--------------------------------------------");
+//		for (Customer bauer : customerRepository.findByLastName("Bauer")) {
+//			log.info(bauer.toString());
+//		}
+//		log.info("");
+//
+//		// fetch customers by last name
+//		log.info("Customer found with findByFirstName('Kim'):");
+//		log.info("--------------------------------------------");
+//		for (Customer bauer : customerRepository.findByFirstName("Kim")) {
+//			log.info(bauer.toString());
+//		}
+//		log.info("");
+//	}
 
 	@Bean
 	public DataSource dataSource() {
