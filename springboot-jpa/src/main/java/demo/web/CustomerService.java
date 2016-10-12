@@ -25,7 +25,6 @@ public class CustomerService {
         this.repository = repository;
     }
 
-    //TODO: N+1 query problem when querying personalities of customers.
     @RequestMapping(path = "/", method = RequestMethod.GET)
     Iterable<Customer> findAllCustomers() {
         return repository.findAll();
