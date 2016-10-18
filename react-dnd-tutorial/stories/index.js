@@ -4,6 +4,7 @@ import Button from './Button';
 import Welcome from './Welcome';
 import Knight from './../src/Knight';
 import Square from './../src/Square';
+import Board from './../src/Board';
 
 storiesOf('Welcome', module)
   .add('to Storybook', () => (
@@ -19,7 +20,7 @@ storiesOf('Button', module)
   )
 );
 
-storiesOf('Chessboard', module).
+storiesOf('Square', module).
   add('Basic Knight', () => (
     <Knight />
   ))
@@ -32,5 +33,15 @@ storiesOf('Chessboard', module).
     <Square>
       <Knight />
     </Square>
+  ))
+  .add('Empty black square', () => (
+    <Square black>
+    </Square>
+  )
+);
+
+storiesOf('Chessboard', module).
+  add('Simple Board', () => (
+    <Board knightPosition={[0, 0]} />
   )
 );
