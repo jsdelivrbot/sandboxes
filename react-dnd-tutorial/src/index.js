@@ -5,11 +5,13 @@ import { observe } from './Game';
 
 const rootEl = document.getElementById('root');
 
-observe(knightPosition =>
-  ReactDOM.render(
-    <Board knightPosition={knightPosition} />,
-    rootEl
-  )
+observe(knightPosition => {
+    console.log('observe called: knightPosition = ' + knightPosition);
+    ReactDOM.render(
+      <Board knightPosition={knightPosition}/>,
+      rootEl
+    )
+  }
 );
 
 ReactDOM.render(

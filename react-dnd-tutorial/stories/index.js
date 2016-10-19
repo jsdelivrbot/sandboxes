@@ -42,6 +42,6 @@ storiesOf('Square', module).
 
 storiesOf('Chessboard', module).
   add('Simple Board', () => (
-    <Board knightPosition={[0, 0]} />
+    <Board knightPosition={[1, 7]} />
   )
 );
