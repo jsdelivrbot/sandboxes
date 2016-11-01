@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Java8Sandbox.iml" filepath="$PROJECT_DIR$/Java8Sandbox.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Java8Sandbox.iml" filepath="$PROJECT_DIR$/.idea/modules/Java8Sandbox.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Java8Sandbox_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Java8Sandbox_main.iml" group="Java8Sandbox" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Java8Sandbox_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Java8Sandbox_test.iml" group="Java8Sandbox" />
     </modules>
   </component>
 </project>

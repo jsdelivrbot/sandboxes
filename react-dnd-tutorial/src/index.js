@@ -6,15 +6,26 @@ import { observe } from './Game';
 const rootEl = document.getElementById('root');
 
 observe(knightPosition => {
-    console.log('observe called: knightPosition = ' + knightPosition);
-    ReactDOM.render(
-      <Board knightPosition={knightPosition}/>,
-      rootEl
-    )
+  ReactDOM.render(
+    <div style={{
+      width: 500,
+      eight: 500,
+      border: '1px solid gray'
+    }}>
+      <Board knightPosition={knightPosition} />
+    </div>,
+    rootEl
+  );
   }
 );
 
 ReactDOM.render(
-  <Board knightPosition={[1, 7]} />,
-  document.getElementById('root')
+  <div style={{
+      width: 500,
+      eight: 500,
+      border: '1px solid gray'
+      }}>
+      <Board knightPosition={[1,7]} />
+    </div>,
+  rootEl
 );
