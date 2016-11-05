@@ -16,6 +16,8 @@ public class IntegerMultiplicationUnitTest {
 
     @Test
     public void assignmentVerificationTest() {
+        //Double firstValue = Double.parseDouble(firstValueStr);
+        //Double secondValue = firstValue / 1000000000000000000000000000000000000000000000000000000000000000d;
         System.out.println(IntegerMultiplication.verify(firstValueStr, secondValueStr).toString());
     }
 
