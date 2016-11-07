@@ -1,8 +1,10 @@
 package com.algo.one.assignments.one;
 
 
+import com.google.common.primitives.Ints;
+
 import java.math.BigInteger;
-import java.util.Arrays;
+import java.util.*;
 
 public class IntegerMultiplication {
 
@@ -30,61 +32,67 @@ public class IntegerMultiplication {
 //    z1 = karatsuba((low1+high1),(low2+high2))
 //    z2 = karatsuba(high1,high2)
 //  return (z2*10^(2*m2))+((z1-z2-z0)*10^(m2))+(z0)
-
-//    For systems that need to multiply numbers in the range of several thousand digits, such as computer algebra
-// systems and bignum libraries, long multiplication is too slow. These systems may employ Karatsuba multiplication,
-// which was discovered in 1960 (published in 1962). The heart of Karatsuba's method lies in the observation that
-// two-digit multiplication can be done with only three rather than the four multiplications classically required.
-// This is an example of what is now called a divide and conquer algorithm.
-// Suppose we want to multiply two 2-digit numbers: x1x2· y1y2:
-//
-//    compute x1 · y1, call the result A
-//    compute x2 · y2, call the result B
-//    compute (x1 + x2) · (y1 + y2), call the result C
-//    compute C − A − B, call the result K; this number is equal to x1 · y2 + x2 · y1
-//    compute A · 100 + K · 10 + B.
+    
 
     /**
      * TODO: The actual assignment
      *
      */
     static int[] karatsuba_multiply(int[] first, int[] second) {
-        if (first.length == 1 && second.length == 1) {
-            return multiplyTwoSmallIntegers(first[0], second[0]);
+        System.out.println("karatsuba_multiply: " + Arrays.toString(first) + " " + Arrays.toString(second));
+        if (first.length == 0 || second.length == 0) {
+            return new int[] { 0 };
+        }
+        if (first.length == 1 || second.length == 1) {
+            return multiplyTwoSmallIntegers(first, second);
         }
 
-        int midpoint = findMidpointIndex(first, second);
-        //IntArrayPair firstPair =
+        int maxLength = Math.max(first.length, second.length);
+        if (maxLength % 2 != 0) {
+            maxLength--;
+        }
+        int midpoint = maxLength / 2;
 
-        int[] low1 = Arrays.copyOfRange(first, 0, midpoint - 1);
-        int[] high1 = Arrays.copyOfRange(first, midpoint, first.length - 1);
-        int[] low2 = Arrays.copyOfRange(second, 0, midpoint - 1);
-        int[] high2 = Arrays.copyOfRange(second, midpoint, second.length - 1);
+        int[] low1 = Arrays.copyOfRange(first, 0, first.length > second.length ? midpoint + 1 : midpoint);
+        int[] high1 = Arrays.copyOfRange(first, first.length > second.length ? midpoint + 1 : midpoint, first.length);
+        int[] low2 = Arrays.copyOfRange(second, 0, second.length > first.length ? midpoint + 1 : midpoint);
+        int[] high2 = Arrays.copyOfRange(second, second.length > first.length ? midpoint + 1 : midpoint, second.length);
 
-        int[] A = karatsuba_multiply(low1, low2);
-        int[] B = karatsuba_multiply(high1, high2);
+        int[] ac = karatsuba_multiply(low1, low2);
+        int[] bd = karatsuba_multiply(high1, high2);
         int[] C = karatsuba_multiply(add(low1, high1), add(low2, high2));
 
-        //K = C - A - B;
-        int[] K = subtract(subtract(C, A), B);
+        //ad_plus_bc = C - A - B;
+        int[] ad_plus_bc = subtract(subtract(C, ac), bd);
 
-        //(A * 100) + (K * 10) + B;
-        return add(add(padZeroesRight(A, 2), padZeroesRight(K, 1)), B);
+//        return add(add(padZeroesRight(ac, 2), padZeroesRight(ad_plus_bc, 1)), bd);
+        return add(add(padZeroesRight(ac, maxLength), padZeroesRight(ad_plus_bc, midpoint)), bd);
     }
 
-    private static int[] multiplyTwoSmallIntegers(int first, int second) {
-        int result = first * second;
-        if (result >= 10) {
-            return new int[] {result / 10, result % 10};
+    private static int[] multiplyTwoSmallIntegers(int[] first, int[] second) {
+        StringBuilder firstStr = new StringBuilder(first.length);
+        StringBuilder secondStr = new StringBuilder(second.length);
+        for (int digit : first) {
+            firstStr.append(digit);
         }
-        return new int[] { result };
+        for (int digit : second) {
+            secondStr.append(digit);
+        }
+
+        Integer multiple = Integer.parseInt(firstStr.toString()) * Integer.parseInt(secondStr.toString());
+        return convertStringRepresentation(multiple.toString());
+//        int result = first * second;
+//        if (result >= 10) {
+//            return new int[] {result / 10, result % 10};
+//        }
+//        return new int[] { result };
     }
 
     /**
      * Converts a string into an integer array, each item in the array containing
      * a single digit integer representing a character of the input string (in order).
      */
-    private static int[] convertStringRepresentation(String integerToConvert) {
+    static int[] convertStringRepresentation(String integerToConvert) {
         int[] retVal = new int[integerToConvert.length()];
         char[] charDigits = integerToConvert.toCharArray();
 
@@ -94,23 +102,77 @@ public class IntegerMultiplication {
         return retVal;
     }
 
-    private static int findMidpointIndex(int[] first, int[] second) {
-        int maxSize = Math.max(first.length, second.length);
-        return maxSize / 2;
-    }
+//    private static int findMaxL(int[] first, int[] second) {
+//        int maxSize = Math.max(first.length, second.length);
+//        return maxSize / 2;
+//    }
 
-    //TODO:
     private static int[] add(int[] first, int[] second) {
-        return new int[]{};
+        int[] firstPadded = first.clone();
+        int[] secondPadded = second.clone();
+        if (first.length < second.length) {
+            firstPadded = padZeroesLeft(first, second.length - first.length);
+        } else if (second.length < first.length) {
+            secondPadded = padZeroesLeft(second, first.length - second.length);
+        }
+
+        LinkedList<Integer> tempResult = new LinkedList<>();
+
+        int carry = 0;
+        for (int i = firstPadded.length - 1; i >= 0; i--) {
+            int temp = firstPadded[i] + secondPadded[i] + carry;
+            if (temp >= 10) {
+                tempResult.push(temp - 10);
+                carry = 1;
+            } else {
+                tempResult.push(temp);
+                carry = 0;
+            }
+        }
+        if (carry == 1) {
+            tempResult.push(1);
+        }
+
+        return Ints.toArray(tempResult);
     }
 
-    //TODO:
-    private static int[] subtract(int[] first, int[] second) {
-        return new int[]{};
+    static int[] subtract(int[] first, int[] second) {
+        int[] firstPadded = first.clone();
+        int[] secondPadded = second.clone();
+        if (first.length < second.length) {
+            firstPadded = padZeroesLeft(first, second.length - first.length);
+        } else if (second.length < first.length) {
+            secondPadded = padZeroesLeft(second, first.length - second.length);
+        }
+        LinkedList<Integer> tempResult = new LinkedList<>();
+
+        int carry = 0;
+        for (int i = firstPadded.length - 1; i >= 0; i--) {
+            int temp = firstPadded[i] - secondPadded[i] - carry;
+            if (temp < 0) {
+                tempResult.push(temp + 10);
+                carry = 1;
+            } else {
+                tempResult.push(temp);
+                carry = 0;
+            }
+        }
+
+        return Ints.toArray(tempResult);
     }
 
-    //TODO:
     private static int[] padZeroesRight(int[] value, int numberOfZeroesToPad) {
-        return new int[]{};
+        return Arrays.copyOf(value, value.length + numberOfZeroesToPad);
+    }
+
+    /**
+     *
+     */
+    private static int[] padZeroesLeft(int[] value, int numberOfZeroesToPad) {
+        LinkedList<Integer> temp = new LinkedList<>(Ints.asList(value));
+        for (int i = 0; i < numberOfZeroesToPad; i++) {
+            temp.push(0);
+        }
+        return Ints.toArray(temp);
     }
 }

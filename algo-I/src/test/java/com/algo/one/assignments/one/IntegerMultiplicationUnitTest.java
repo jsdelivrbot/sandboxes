@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 
 public class IntegerMultiplicationUnitTest {
 
@@ -26,11 +27,27 @@ public class IntegerMultiplicationUnitTest {
         Assert.assertEquals(IntegerMultiplication.verify("1234", "5678"), "7006652");
     }
 
-//    @Test
-//    public void simpleDataTest() {
-//        Assert.assertEquals(
-//                IntegerMultiplication.verify(simpleFirstValueStr, simpleSecondValueStr),
-//                IntegerMultiplication.multiply(simpleFirstValueStr, simpleSecondValueStr)
-//        );
-//    }
+    @Test
+    public void karatsuba_multiply_fulltest() {
+        int[] result = IntegerMultiplication.karatsuba_multiply(
+                IntegerMultiplication.convertStringRepresentation(firstValueStr),
+                IntegerMultiplication.convertStringRepresentation(secondValueStr));
+        System.out.println(Arrays.toString(result));
+    }
+
+    @Test
+    public void karatsuba_multiply_simpletest() {
+        int[] result = IntegerMultiplication.karatsuba_multiply(
+                IntegerMultiplication.convertStringRepresentation("1234"),
+                IntegerMultiplication.convertStringRepresentation("5678"));
+        System.out.println(Arrays.toString(result));
+    }
+
+    @Test
+    public void karatsuba_multiply_mismatchNumDigitsTest() {
+        int[] result = IntegerMultiplication.karatsuba_multiply(
+                IntegerMultiplication.convertStringRepresentation("46"),
+                IntegerMultiplication.convertStringRepresentation("134"));
+        System.out.println(Arrays.toString(result));
+    }
 }
