@@ -4,7 +4,8 @@ package com.algo.one.assignments.one;
 import com.google.common.primitives.Ints;
 
 import java.math.BigInteger;
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedList;
 
 public class IntegerMultiplication {
 
@@ -32,10 +33,10 @@ public class IntegerMultiplication {
 //    z1 = karatsuba((low1+high1),(low2+high2))
 //    z2 = karatsuba(high1,high2)
 //  return (z2*10^(2*m2))+((z1-z2-z0)*10^(m2))+(z0)
-    
+
 
     /**
-     * TODO: The actual assignment
+     * The actual karatsuba implementation
      *
      */
     static int[] karatsuba_multiply(int[] first, int[] second) {
@@ -48,25 +49,21 @@ public class IntegerMultiplication {
         }
 
         int maxLength = Math.max(first.length, second.length);
-        if (maxLength % 2 != 0) {
-            maxLength--;
-        }
         int midpoint = maxLength / 2;
 
-        int[] low1 = Arrays.copyOfRange(first, 0, first.length > second.length ? midpoint + 1 : midpoint);
-        int[] high1 = Arrays.copyOfRange(first, first.length > second.length ? midpoint + 1 : midpoint, first.length);
-        int[] low2 = Arrays.copyOfRange(second, 0, second.length > first.length ? midpoint + 1 : midpoint);
-        int[] high2 = Arrays.copyOfRange(second, second.length > first.length ? midpoint + 1 : midpoint, second.length);
+        int[] low1 = Arrays.copyOfRange(first, 0, first.length - midpoint);
+        int[] high1 = Arrays.copyOfRange(first, first.length - midpoint, first.length);
+        int[] low2 = Arrays.copyOfRange(second, 0, second.length - midpoint);
+        int[] high2 = Arrays.copyOfRange(second, second.length - midpoint, second.length);
 
         int[] ac = karatsuba_multiply(low1, low2);
         int[] bd = karatsuba_multiply(high1, high2);
         int[] C = karatsuba_multiply(add(low1, high1), add(low2, high2));
 
-        //ad_plus_bc = C - A - B;
+        //ad_plus_bc = C - ac - bd;
         int[] ad_plus_bc = subtract(subtract(C, ac), bd);
 
-//        return add(add(padZeroesRight(ac, 2), padZeroesRight(ad_plus_bc, 1)), bd);
-        return add(add(padZeroesRight(ac, maxLength), padZeroesRight(ad_plus_bc, midpoint)), bd);
+        return add(add(padZeroesRight(ac, 2 * midpoint), padZeroesRight(ad_plus_bc, midpoint)), bd);
     }
 
     private static int[] multiplyTwoSmallIntegers(int[] first, int[] second) {
@@ -81,11 +78,6 @@ public class IntegerMultiplication {
 
         Integer multiple = Integer.parseInt(firstStr.toString()) * Integer.parseInt(secondStr.toString());
         return convertStringRepresentation(multiple.toString());
-//        int result = first * second;
-//        if (result >= 10) {
-//            return new int[] {result / 10, result % 10};
-//        }
-//        return new int[] { result };
     }
 
     /**
@@ -102,10 +94,13 @@ public class IntegerMultiplication {
         return retVal;
     }
 
-//    private static int findMaxL(int[] first, int[] second) {
-//        int maxSize = Math.max(first.length, second.length);
-//        return maxSize / 2;
-//    }
+    static String convertIntArrayRepresentation(int[] arrayToConvert) {
+        StringBuilder result = new StringBuilder(arrayToConvert.length);
+        for (int digit : arrayToConvert) {
+            result.append(digit);
+        }
+        return result.toString();
+    }
 
     private static int[] add(int[] first, int[] second) {
         int[] firstPadded = first.clone();
@@ -165,9 +160,6 @@ public class IntegerMultiplication {
         return Arrays.copyOf(value, value.length + numberOfZeroesToPad);
     }
 
-    /**
-     *
-     */
     private static int[] padZeroesLeft(int[] value, int numberOfZeroesToPad) {
         LinkedList<Integer> temp = new LinkedList<>(Ints.asList(value));
         for (int i = 0; i < numberOfZeroesToPad; i++) {

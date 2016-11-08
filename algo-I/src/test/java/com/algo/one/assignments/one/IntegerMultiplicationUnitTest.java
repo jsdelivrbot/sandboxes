@@ -1,53 +1,68 @@
 package com.algo.one.assignments.one;
 
 
-import org.junit.Assert;
 import org.junit.Test;
 
-import java.math.BigInteger;
-import java.util.Arrays;
+import static org.junit.Assert.assertEquals;
 
 public class IntegerMultiplicationUnitTest {
 
     private static final String firstValueStr = "3141592653589793238462643383279502884197169399375105820974944592";
     private static final String secondValueStr = "2718281828459045235360287471352662497757247093699959574966967627";
-
-    private static final String simpleFirstValueStr = "1234";
-    private static final String simpleSecondValueStr = "5678";
+    private static final int[] firstValueInt = IntegerMultiplication.convertStringRepresentation(firstValueStr);
+    private static final int[] secondValueInt = IntegerMultiplication.convertStringRepresentation(secondValueStr);
 
     @Test
     public void assignmentVerificationTest() {
-        //Double firstValue = Double.parseDouble(firstValueStr);
-        //Double secondValue = firstValue / 1000000000000000000000000000000000000000000000000000000000000000d;
         System.out.println(IntegerMultiplication.verify(firstValueStr, secondValueStr).toString());
     }
 
     @Test
     public void simpleVerificationTest() {
-        Assert.assertEquals(IntegerMultiplication.verify("1234", "5678"), "7006652");
+        assertEquals(IntegerMultiplication.verify("1234", "5678"), "7006652");
     }
 
-    @Test
-    public void karatsuba_multiply_fulltest() {
-        int[] result = IntegerMultiplication.karatsuba_multiply(
-                IntegerMultiplication.convertStringRepresentation(firstValueStr),
-                IntegerMultiplication.convertStringRepresentation(secondValueStr));
-        System.out.println(Arrays.toString(result));
+    public void karatsuba_multiplyAndVerify(String first, String second) {
+        String result = IntegerMultiplication.convertIntArrayRepresentation(
+                IntegerMultiplication.karatsuba_multiply(
+                        IntegerMultiplication.convertStringRepresentation(first),
+                        IntegerMultiplication.convertStringRepresentation(second)));
+        String expected = IntegerMultiplication.verify(first, second);
+        assertEquals(expected, result);
     }
 
     @Test
     public void karatsuba_multiply_simpletest() {
-        int[] result = IntegerMultiplication.karatsuba_multiply(
-                IntegerMultiplication.convertStringRepresentation("1234"),
-                IntegerMultiplication.convertStringRepresentation("5678"));
-        System.out.println(Arrays.toString(result));
+        karatsuba_multiplyAndVerify("1234", "5678");
     }
 
     @Test
     public void karatsuba_multiply_mismatchNumDigitsTest() {
-        int[] result = IntegerMultiplication.karatsuba_multiply(
-                IntegerMultiplication.convertStringRepresentation("46"),
-                IntegerMultiplication.convertStringRepresentation("134"));
-        System.out.println(Arrays.toString(result));
+        karatsuba_multiplyAndVerify("46", "134");
+    }
+
+    @Test
+    public void karatsuba_multiply_fulltest() {
+        karatsuba_multiplyAndVerify(firstValueStr, secondValueStr);
+    }
+
+    @Test
+    public void karatsuba_multiply_sixDigits() {
+        karatsuba_multiplyAndVerify("6756", "567");
+    }
+
+    @Test
+    public void karatsuba_multiply_est() {
+        karatsuba_multiplyAndVerify("123", "63");
+    }
+
+    @Test
+    public void karatsuba_BigInteger_timeTest() {
+        IntegerMultiplication.verify(firstValueStr, secondValueStr);
+    }
+
+    @Test
+    public void karatsuba_multiply_timeTest() {
+        IntegerMultiplication.karatsuba_multiply(firstValueInt, secondValueInt);
     }
 }
