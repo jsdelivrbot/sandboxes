@@ -1,5 +1,6 @@
 package com.example;
 
+import com.example.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
