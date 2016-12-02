@@ -1,30 +1,3 @@
-
-
-
-export const calculateInversions = function(sourceArray) {
-    let result = sortAndCount(sourceArray);
-    return result.numInversions;
-};
-
-const sortAndCount = function(sourceArray) {
-    console.log("enter sourceAndCount: sourceArray = " + sourceArray);
-
-    if (sourceArray.length <= 1) {
-        return { sortedValues: sourceArray, numInversions: 0 };
-    }
-    let midpoint = Math.trunc(sourceArray.length / 2);
-    let firstHalfSorted = sortAndCount(sourceArray.slice(0, midpoint));
-    let secondHalfSorted = sortAndCount(sourceArray.slice(midpoint));
-    let splitInversions = mergeAndCountSplitInversions(firstHalfSorted.sortedValues, secondHalfSorted.sortedValues);
-
-    var retVal = { sortedValues: splitInversions.sortedValues,
-        numInversions: firstHalfSorted.numInversions + secondHalfSorted.numInversions +
-        splitInversions.numInversions };
-    console.log("exit sourceAndCount: returning sortedValues = " + retVal.sortedValues + " numInversions = " +
-        retVal.numInversions);
-    return retVal;
-};
-
 const mergeAndCountSplitInversions = function(firstHalfSorted, secondHalfSorted) {
     console.log("enter mergeAndCountSplitInversions: firstHalfSorted = " + firstHalfSorted +
         " secondHalfSorted = " + secondHalfSorted);
@@ -54,4 +27,28 @@ const mergeAndCountSplitInversions = function(firstHalfSorted, secondHalfSorted)
     console.log("exit mergeAndCountSplitInversions: returning sortedValues = " + retVal.sortedValues +
         " numInversions = " + retVal.numInversions);
     return retVal;
+};
+
+const sortAndCount = function(sourceArray) {
+  console.log("enter sourceAndCount: sourceArray = " + sourceArray);
+
+  if (sourceArray.length <= 1) {
+    return { sortedValues: sourceArray, numInversions: 0 };
+  }
+  let midpoint = Math.trunc(sourceArray.length / 2);
+  let firstHalfSorted = sortAndCount(sourceArray.slice(0, midpoint));
+  let secondHalfSorted = sortAndCount(sourceArray.slice(midpoint));
+  let splitInversions = mergeAndCountSplitInversions(firstHalfSorted.sortedValues, secondHalfSorted.sortedValues);
+
+  var retVal = { sortedValues: splitInversions.sortedValues,
+    numInversions: firstHalfSorted.numInversions + secondHalfSorted.numInversions +
+    splitInversions.numInversions };
+  console.log("exit sourceAndCount: returning sortedValues = " + retVal.sortedValues + " numInversions = " +
+    retVal.numInversions);
+  return retVal;
+};
+
+export const calculateInversions = function(sourceArray) {
+  let result = sortAndCount(sourceArray);
+  return result.numInversions;
 };
