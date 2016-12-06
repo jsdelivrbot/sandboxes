@@ -1,6 +1,6 @@
 const mergeAndCountSplitInversions = function(firstHalfSorted, secondHalfSorted) {
-    console.log("enter mergeAndCountSplitInversions: firstHalfSorted = " + firstHalfSorted +
-        " secondHalfSorted = " + secondHalfSorted);
+    // console.log("enter mergeAndCountSplitInversions: firstHalfSorted = " + firstHalfSorted +
+    //     " secondHalfSorted = " + secondHalfSorted);
     let sorted = [];
     let numInversions = 0;
     let i = 0;
@@ -24,13 +24,13 @@ const mergeAndCountSplitInversions = function(firstHalfSorted, secondHalfSorted)
         }
     }
     let retVal = { sortedValues: sorted, numInversions: numInversions };
-    console.log("exit mergeAndCountSplitInversions: returning sortedValues = " + retVal.sortedValues +
-        " numInversions = " + retVal.numInversions);
+    // console.log("exit mergeAndCountSplitInversions: returning sortedValues = " + retVal.sortedValues +
+    //     " numInversions = " + retVal.numInversions);
     return retVal;
 };
 
 const sortAndCount = function(sourceArray) {
-  console.log("enter sourceAndCount: sourceArray = " + sourceArray);
+  // console.log("enter sourceAndCount: sourceArray = " + sourceArray);
 
   if (sourceArray.length <= 1) {
     return { sortedValues: sourceArray, numInversions: 0 };
@@ -43,8 +43,8 @@ const sortAndCount = function(sourceArray) {
   var retVal = { sortedValues: splitInversions.sortedValues,
     numInversions: firstHalfSorted.numInversions + secondHalfSorted.numInversions +
     splitInversions.numInversions };
-  console.log("exit sourceAndCount: returning sortedValues = " + retVal.sortedValues + " numInversions = " +
-    retVal.numInversions);
+  // console.log("exit sourceAndCount: returning sortedValues = " + retVal.sortedValues + " numInversions = " +
+  //   retVal.numInversions);
   return retVal;
 };
 

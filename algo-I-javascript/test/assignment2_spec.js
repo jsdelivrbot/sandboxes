@@ -1,14 +1,13 @@
 import {expect} from 'chai';
-import fs from 'fs';
-//import {testData} from './assignment2testData';
+import {parseLargeIntegerSetFromDataFile} from './test_helper';
+import {quickSort, pivotAroundFirstElement, pivotAroundLastElement, pivotMedianOfThree} from '../assignments/assignment2';
 
 describe('compute number of comparisons', () => {
 
-  it('in full sample', () => {
-    const fileHandle = fs.readFileSync('./test/assignment2TestData.txt', 'utf8');
-    const fullDataArray = fileHandle.split('\r\n');
+  it('pivot around first element using full sample', () => {
+    const fullDataArray = parseLargeIntegerSetFromDataFile('./test/assignment2testData.txt');
 
-    //TODO: trim last \r\n and convert to numbers
-    expect(fullDataArray.length).to.equal(10000);
+    const numberOfComparisons = quickSort(fullDataArray, pivotAroundFirstElement);
+    //const numInversions = calculateInversions(fullDataArray);
   });
 });

@@ -1,19 +1,44 @@
 
 
-export const test = function() {
-  let test2 = 5;
+export const quickSort = function(dataToSort, pivotFunction) {
+  let numComparisons = 0;
+  if (dataToSort.length > 1) {
+    const pivot = pivotFunction(dataToSort);
+    //partition(dataToSort, pivot, dataToSort.length - 1);
+    //quickSort(firstPartOfData, pivotFunction);
+    //quickSort(secondPartOfData, pivotFunction);
+  }
+
+  return numComparisons;
 };
 
-const partition = function(A, l, r) {
-  const p = A[l];
+export const pivotAroundFirstElement = function(dataToSort) {
+  return 0;
+};
+
+export const pivotAroundLastElement = function(dataToSort) {
+  return dataToSort.length - 1;
+};
+
+export const pivotMedianOfThree = function(dataToSort) {
+
+};
+
+const partition = function(dataToPartition, l, r) {
+  const p = dataToPartition[l];
   let i = l + 1;
   for (let j = l + 1; j < r; j++) {
-    if (A[j] < p) {
-      //if A[j] > p, do nothing.  (If new element is greater than pivot)
-      //Swap A[j] and A[i]
+    if (dataToPartition[j] < p) {
+      //if dataToPartition[j] > p, do nothing.  (If new element is greater than pivot)
+      //Swap dataToPartition[j] and dataToPartition[i]
+      const temp = dataToPartition[i];
+      dataToPartition[j] = dataToPartition[j];
+      dataToPartition[i] = temp;
+      i = i + 1;
     }
   }
 
-  i = i + 1;
-  //TODO: Swap A[l] and A[i - 1]
+  const temp = dataToPartition[l];
+  dataToPartition[l] = dataToPartition[i - 1];
+  dataToPartition[i - 1] = temp;
 };
