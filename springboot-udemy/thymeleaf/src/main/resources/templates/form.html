@@ -2,23 +2,33 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Thymeleaf Form Example</title>
+    <link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
 </head>
 <body>
-    <h1>Thymeleaf Form Example</h1>
+    <div class="container">
+        <h1>Thymeleaf Form Example</h1>
 
-    <!--/*@thymesVar id="person" type="com.example.domain.Person"*/-->
-    <form th:action="@{/form}" th:object="${person}" method="post">
-        <div>
-            First Name: <input type="text" th:field="*{firstName}" />
-        </div>
-        <div>
-            Last Name: <input type="text" th:field="*{lastName}" />
-        </div>
-        <div>
-            Email: <input type="text" th:field="*{email}" />
-        </div>
+        <!--/*@thymesVar id="person" type="com.example.domain.Person"*/-->
+        <form th:action="@{/form}" th:object="${person}" method="post">
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" class="form-control" id="firstName" placeholder="First Name" th:field="*{firstName}" />
+            </div>
 
-        <button type="submit">Submit</button>
-    </form>
+            <div class="form-group">
+                <label for="lastName">First Name</label>
+                <input type="text" class="form-control" id="lastName" placeholder="Last Name" th:field="*{lastName}" />
+            </div>
+
+            <div class="form-group">
+                <label for="email">First Name</label>
+                <input type="text" class="form-control" id="email" placeholder="Email Name" th:field="*{email}" />
+            </div>
+
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+    </div>
+    <script th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
 </body>
 </html>

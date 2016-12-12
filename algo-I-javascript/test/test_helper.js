@@ -14,3 +14,7 @@ export const parseLargeIntegerSetFromDataFile = function(filename) {
 
   return fullDataArray;
 };
+
+export const parseGraphDataFromFile = function(filename) {
+
+};
