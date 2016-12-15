@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+    <persistence-unit name="demoPersistenceUnit">
+        <class>com.example.model.DashboardsEntity</class>
+        <class>com.example.model.PreferencesEntity</class>
+        <class>com.example.model.UsersEntity</class>
+        <class>com.example.model.WidgetsEntity</class>
+        <class>com.example.model.DashboardWidgetsEntity</class>
+        <properties>
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/hub"/>
+            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+        </properties>
+    </persistence-unit>
+</persistence>

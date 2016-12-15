@@ -2,9 +2,9 @@ import {expect} from 'chai';
 import {parseGraphDataFromFile} from './test_helper';
 //import {executeQuickSort, pivotAroundFirstElement, pivotAroundLastElement, pivotMedianOfThree} from '../assignments/assignment2';
 
-describe('compute number of comparisons', () => {
+describe('randomized contraction algorithm', () => {
 
-  it('pivot around median element using full sample', () => {
+  it('compute min cut of large data set', () => {
     const fullDataArray = parseGraphDataFromFile('./test/assignment3testData.txt');
 
     // const numberOfComparisons = executeQuickSort(fullDataArray, pivotMedianOfThree);
