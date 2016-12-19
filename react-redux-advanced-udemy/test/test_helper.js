@@ -16,6 +16,11 @@ const $ = _$(window);
 
 chaiJquery(chai, chai.util, $);
 
+/**
+ * Returns a jQuery object containing the given React component specified
+ * by class ComponentClass.  The jQuery object can then be referenced in your
+ * test and can be manipulated using standard jQuery operations.
+ */
 function renderComponent(ComponentClass, props = {}, state = {}) {
   const componentInstance =  TestUtils.renderIntoDocument(
     <Provider store={createStore(reducers, state)}>
@@ -26,6 +31,10 @@ function renderComponent(ComponentClass, props = {}, state = {}) {
   return $(ReactDOM.findDOMNode(componentInstance));
 }
 
+/**
+ * Adds a new simulate function that can be invoked on any
+ * jQuery object. fn is simply an alias to the prototype property.
+ */
 $.fn.simulate = function(eventName, value) {
   if (value) {
     this.val(value);

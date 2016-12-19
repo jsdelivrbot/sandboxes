@@ -1,14 +1,20 @@
-import { renderComponent , expect } from '../test_helper';
+import { renderComponent, expect } from '../test_helper';
 import App from '../../src/components/app';
 
-describe('App' , () => {
-  let component;
+// Use 'describe' to group together similar tests
+describe('App', () => {
 
+  let component;
   beforeEach(() => {
     component = renderComponent(App);
+  })
+
+  it('contains a CommentBox child component', () => {
+    expect(component.find('.comment-box')).to.exist;
   });
 
-  it('renders something', () => {
-    expect(component).to.exist;
-  });
+  it('contains a CommentList child component', () => {
+    expect(component.find('.comment-list')).to.exist;
+  })
 });
+
