@@ -1,7 +1,12 @@
 package com.example;
 
-/**
- * Created by rockman on 12/14/2016.
- */
+import io.katharsis.spring.jpa.SpringTransactionRunner;
+import org.springframework.context.annotation.Bean;
+
 public class JpaConfig {
+
+    @Bean
+    public SpringTransactionRunner transactionRunner() {
+        return new SpringTransactionRunner();
+    }
 }

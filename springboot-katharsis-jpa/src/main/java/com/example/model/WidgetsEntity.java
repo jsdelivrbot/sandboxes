@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Widgets", schema = "hub", catalog = "")
+@Table(name = "Widgets", schema = "hub")
 public class WidgetsEntity {
     private int id;
     private String name;

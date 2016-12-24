@@ -5,8 +5,9 @@ import java.sql.Timestamp;
 
 
 @Entity
-@Table(name = "Users", schema = "hub", catalog = "")
+@Table(name = "Users")
 public class UsersEntity {
+    @Id
     private int id;
     private String email;
     private String firstName;
@@ -14,10 +15,12 @@ public class UsersEntity {
     private String password;
     private String resetPwdToken;
     private Timestamp resetPwdExpires;
+    @Basic
+    @Column(name = "createdAt")
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
-    @Id
+    //@Id
     @Column(name = "id")
     public int getId() {
         return id;
@@ -87,12 +90,10 @@ public class UsersEntity {
         this.resetPwdExpires = resetPwdExpires;
     }
 
-    @Basic
-    @Column(name = "createdAt")
+
     public Timestamp getCreatedAt() {
         return createdAt;
     }
-
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
