@@ -1,4 +1,4 @@
-package com.example;
+package com.example.config;
 
 import com.example.model.UsersDto;
 import com.example.model.UsersEntity;

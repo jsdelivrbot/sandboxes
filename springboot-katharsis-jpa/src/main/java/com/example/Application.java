@@ -1,5 +1,7 @@
 package com.example;
 
+import com.example.config.JpaConfig;
+import com.example.config.ModuleConfig;
 import io.katharsis.resource.registry.ResourceRegistry;
 import io.katharsis.spring.boot.v3.KatharsisConfigV3;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,22 +19,23 @@ import java.util.Map;
 @RestController
 @SpringBootApplication
 @Import({ KatharsisConfigV3.class, JpaConfig.class, ModuleConfig.class })
-public class DemoApplication {
+public class Application {
 
-	@Autowired
-	private ResourceRegistry resourceRegistry;
+    @Autowired
+    private ResourceRegistry resourceRegistry;
 
-	@RequestMapping("/resourcesInfo")
-	public Map<?, ?> getResources() {
-		Map<String, String> result = new HashMap<>();
-		// Add all resources (i.e. Project and Task)
-		for (Class<?> clazz : resourceRegistry.getResources().keySet()) {
-			result.put(resourceRegistry.getResourceType(clazz), resourceRegistry.getResourceUrl(clazz));
-		}
-		return result;
-	}
+    @RequestMapping("/resourcesInfo")
+    public Map<?, ?> getResources() {
+        Map<String, String> result = new HashMap<>();
+        // Add all resources (i.e. Project and Task)
+        for (Class<?> clazz : resourceRegistry.getResources().keySet()) {
+            result.put(resourceRegistry.getResourceType(clazz), resourceRegistry.getResourceUrl(clazz));
+        }
+        return result;
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
-	}
+    public static void main(String[] args) throws Throwable {
+        SpringApplication.run(Application.class, args);
+    }
+
 }

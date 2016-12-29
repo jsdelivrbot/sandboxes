@@ -1,4 +1,4 @@
-package com.example;
+package com.example.config;
 
 import io.katharsis.spring.jpa.SpringTransactionRunner;
 import org.springframework.context.annotation.Bean;
