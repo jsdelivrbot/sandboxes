@@ -4,7 +4,7 @@
              xs:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
              xmlns="http://java.sun.com/xml/ns/persistence">
 
-    <persistence-unit name="TEST_SPRING" transaction-type="RESOURCE_LOCAL">
+    <persistence-unit name="hubPersistenceUnit" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <properties>
             <property name="hibernate.format_sql" value="false" />
