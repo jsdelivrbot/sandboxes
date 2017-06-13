@@ -1,12 +1,13 @@
-package com.example.bulkinsert;
+package com.example.bulkinsert.spring.jdbc;
 
+import com.example.bulkinsert.SampleDataCreator;
+import com.example.bulkinsert.entity.Person;
+import com.example.bulkinsert.spring.AbstractStepDefinitions;
 import cucumber.api.java8.En;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.jdbc.core.RowCountCallbackHandler;
 import org.testng.Assert;
 
 import javax.sql.DataSource;
@@ -14,30 +15,21 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-@ContextConfiguration(classes = DataSourceConfig.class)
-@SpringBootTest
-public class SpringJdbcBulkInsertStepDefs extends AbstractTestNGSpringContextTests implements En {
-
-    //@Autowired
-   // private DataSource dataSource;
+public class SpringJdbcBulkInsertStepDefs extends AbstractStepDefinitions implements En {
 
     private JdbcTemplate template;
 
-   // @Autowired
-    public SpringJdbcBulkInsertStepDefs(/*DataSource dataSource*/) {
-    //public SpringJdbcBulkInsertStepDefs() {
-        Given("^A Spring JDBC datasource$", () -> {
-            DataSourceConfig config = new DataSourceConfig();
-            template = new JdbcTemplate(config.dataSource());
-            //template = new JdbcTemplate(dataSource);
-        });
-        When("^I insert (\\d+) records into the Person table$", (Integer numRecords) -> {
-//            String updatePersonSql = "INSERT INTO PERSON (firstname,lastname,ssn) VALUES (?,?,?)";
-            String updatePersonSql = "INSERT INTO PERSON VALUES (?,?,?)";
+    private static final String INSERT_PERSON_RECORD = "INSERT INTO PERSON (firstname, lastname, ssn) VALUES (?,?,?)";
+    private static final String SELECT_ALL_PEOPLE = "SELECT * FROM PERSON";
+    private static final String DELETE_ALL_PEOPLE_RECORDS = "DELETE PERSON";
 
+    @Autowired
+    public SpringJdbcBulkInsertStepDefs(DataSource h2DataSource) {
+        Given("^A Spring JDBC datasource$", () -> template = new JdbcTemplate(h2DataSource));
+        When("^I insert (\\d+) records into the Person table$", (Integer numRecords) -> {
             List<Person> people = new SampleDataCreator().createFakePeople(numRecords);
 
-            template.batchUpdate(updatePersonSql, new BatchPreparedStatementSetter() {
+            template.batchUpdate(INSERT_PERSON_RECORD, new BatchPreparedStatementSetter() {
                 @Override
                 public void setValues(PreparedStatement ps, int i) throws SQLException {
                     Person person = people.get(i);
@@ -53,10 +45,8 @@ public class SpringJdbcBulkInsertStepDefs extends AbstractTestNGSpringContextTes
             });
         });
         Then("^I verify that the (\\d+) records are inserted correctly$", (Integer numRecords) -> {
-            String selectPersonSql = "SELECT * FROM PERSON";
-
             List<Person> people = template.query(
-                    selectPersonSql,
+                    SELECT_ALL_PEOPLE,
                     (rs, rowNum) -> {
                         Person person = new Person();
                         person.setFirstName(rs.getString("firstname"));
@@ -66,7 +56,16 @@ public class SpringJdbcBulkInsertStepDefs extends AbstractTestNGSpringContextTes
                     }
             );
 
+            people.forEach(person -> System.out.println(person.toString()));
+
             Assert.assertEquals(people.size(), numRecords.intValue());
+        });
+        Then("^I clean up the Person table$", () -> {
+            template.execute(DELETE_ALL_PEOPLE_RECORDS);
+
+            RowCountCallbackHandler rowCountCallbackHandler = new RowCountCallbackHandler();
+            template.query(SELECT_ALL_PEOPLE, rowCountCallbackHandler);
+            Assert.assertEquals(rowCountCallbackHandler.getRowCount(), 0);
         });
     }
 }

@@ -13,7 +13,6 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
@@ -53,5 +52,7 @@ dependencies {
 task cucumber(type: JavaExec, dependsOn: assemble) {
     main = "cucumber.api.cli.Main"
     classpath = configurations.runtime + configurations.testCompile + sourceSets.main.output + sourceSets.test.output
-    args = ['-f', 'json:build/reports/cucumber/cucumber.json', '--glue', 'com.example.bulkinsert', 'src/test/resources']
+    args = ['-f', 'json:build/reports/cucumber/cucumber.json',
+            '--glue', 'com.example.bulkinsert', 'src/test/resources',
+            '--format', 'usage']
 }

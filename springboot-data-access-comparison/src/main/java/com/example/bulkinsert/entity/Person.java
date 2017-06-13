@@ -1,4 +1,4 @@
-package com.example.bulkinsert;
+package com.example.bulkinsert.entity;
 
 
 import javax.persistence.*;
@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Person {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "firstname")
@@ -47,5 +47,15 @@ public class Person {
 
     public void setSocialSecurityNumber(String socialSecurityNumber) {
         this.socialSecurityNumber = socialSecurityNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", socialSecurityNumber='" + socialSecurityNumber + '\'' +
+                '}';
     }
 }

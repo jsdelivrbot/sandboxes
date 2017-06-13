@@ -1,6 +1,7 @@
 package com.example.bulkinsert;
 
 
+import com.example.bulkinsert.entity.Person;
 import com.github.javafaker.Faker;
 
 import java.util.ArrayList;
