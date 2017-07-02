@@ -4,6 +4,7 @@ package com.example.bulkinsert.entity;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "Person")
 public class Person {
 
     @Id

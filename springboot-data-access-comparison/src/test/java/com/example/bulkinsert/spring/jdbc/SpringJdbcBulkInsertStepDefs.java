@@ -2,7 +2,7 @@ package com.example.bulkinsert.spring.jdbc;
 
 import com.example.bulkinsert.SampleDataCreator;
 import com.example.bulkinsert.entity.Person;
-import com.example.bulkinsert.spring.AbstractStepDefinitions;
+import com.example.bulkinsert.AbstractStepDefinitions;
 import cucumber.api.java8.En;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -19,9 +19,9 @@ public class SpringJdbcBulkInsertStepDefs extends AbstractStepDefinitions implem
 
     private JdbcTemplate template;
 
-    private static final String INSERT_PERSON_RECORD = "INSERT INTO PERSON (firstname, lastname, ssn) VALUES (?,?,?)";
-    private static final String SELECT_ALL_PEOPLE = "SELECT * FROM PERSON";
-    private static final String DELETE_ALL_PEOPLE_RECORDS = "DELETE PERSON";
+    private static final String INSERT_PERSON_RECORD = "INSERT INTO Person (firstname, lastname, ssn) VALUES (?,?,?)";
+    private static final String SELECT_ALL_PEOPLE = "SELECT * FROM Person";
+    private static final String DELETE_ALL_PEOPLE_RECORDS = "DELETE Person";
 
     @Autowired
     public SpringJdbcBulkInsertStepDefs(DataSource h2DataSource) {

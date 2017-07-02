@@ -2,7 +2,7 @@ package com.example.bulkinsert.spring.data;
 
 import com.example.bulkinsert.SampleDataCreator;
 import com.example.bulkinsert.entity.Person;
-import com.example.bulkinsert.spring.AbstractStepDefinitions;
+import com.example.bulkinsert.AbstractStepDefinitions;
 import cucumber.api.java8.En;
 import org.testng.Assert;
 
