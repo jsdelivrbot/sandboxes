@@ -11,6 +11,11 @@ public class ListNode<T> {
 		this.data = data;
 	}
 
+    public ListNode(T data, ListNode<T> next) {
+        this.data = data;
+        this.next = next;
+    }
+
 	@Override
 	public String toString() {
 		String retVal = "ListNode{" +
