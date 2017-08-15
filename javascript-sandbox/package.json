@@ -1,0 +1,32 @@
+{
+  "name": "javascript-sandbox",
+  "version": "0.0.1",
+  "description": "A workspace to experiment with JavaScript features.",
+  "main": "src/app.js",
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack-dev-server --inline --hot",
+    "test": "karma start karma.conf.js",
+    "test:watch": "npm run test -- --watch"
+  },
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-env": "^1.6.0",
+    "chai": "^4.1.1",
+    "html-webpack-plugin": "^2.30.1",
+    "jsdom": "^8.0.3",
+    "karma": "^1.7.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-mocha": "^1.3.0",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^2.0.4",
+    "mocha": "^3.5.0",
+    "webpack": "^3.5.4",
+    "webpack-dev-server": "^2.6.1"
+  },
+  "dependencies": {},
+  "author": "",
+  "license": "ISC"
+}
