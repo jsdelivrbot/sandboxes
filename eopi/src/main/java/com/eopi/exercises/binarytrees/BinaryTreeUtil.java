@@ -69,29 +69,33 @@ public class BinaryTreeUtil {
         BinaryTreeNode<Integer> rootNode = new BinaryTreeNode<>(314, "A");
 
         //depth 1
-        rootNode.leftChild = new BinaryTreeNode<>(6, "B");
-        rootNode.rightChild = new BinaryTreeNode<>(6, "I");
+        rootNode.leftChild = new BinaryTreeNode<>(6, "B", rootNode);
+        rootNode.rightChild = new BinaryTreeNode<>(6, "I", rootNode);
 
         //depth 2
-        rootNode.leftChild.leftChild = new BinaryTreeNode<>(271, "C");
-        rootNode.leftChild.rightChild = new BinaryTreeNode<>(561, "F");
-        rootNode.rightChild.leftChild = new BinaryTreeNode<>(2, "J");
-        rootNode.rightChild.rightChild = new BinaryTreeNode<>(271, "O");
+        rootNode.leftChild.leftChild = new BinaryTreeNode<>(271, "C", rootNode.leftChild);
+        rootNode.leftChild.rightChild = new BinaryTreeNode<>(561, "F", rootNode.leftChild);
+        rootNode.rightChild.leftChild = new BinaryTreeNode<>(2, "J", rootNode.rightChild);
+        rootNode.rightChild.rightChild = new BinaryTreeNode<>(271, "O", rootNode.rightChild);
 
         //depth 3
-        rootNode.leftChild.leftChild.leftChild = new BinaryTreeNode<>(28, "D");
-        rootNode.leftChild.leftChild.rightChild = new BinaryTreeNode<>(0, "E");
-        rootNode.leftChild.rightChild.rightChild = new BinaryTreeNode<>(3, "G");
-        rootNode.rightChild.leftChild.rightChild = new BinaryTreeNode<>(1, "K");
-        rootNode.rightChild.rightChild.rightChild = new BinaryTreeNode<>(28, "P");
+        rootNode.leftChild.leftChild.leftChild = new BinaryTreeNode<>(28, "D", rootNode.leftChild.leftChild);
+        rootNode.leftChild.leftChild.rightChild = new BinaryTreeNode<>(0, "E", rootNode.leftChild.leftChild);
+        rootNode.leftChild.rightChild.rightChild = new BinaryTreeNode<>(3, "G", rootNode.leftChild.rightChild);
+        rootNode.rightChild.leftChild.rightChild = new BinaryTreeNode<>(1, "K", rootNode.rightChild.leftChild);
+        rootNode.rightChild.rightChild.rightChild = new BinaryTreeNode<>(28, "P", rootNode.rightChild.rightChild);
 
         //depth 4
-        rootNode.leftChild.rightChild.rightChild.leftChild = new BinaryTreeNode<>(17, "H");
-        rootNode.rightChild.leftChild.rightChild.leftChild = new BinaryTreeNode<>(401, "L");
-        rootNode.rightChild.leftChild.rightChild.rightChild = new BinaryTreeNode<>(257, "N");
+        rootNode.leftChild.rightChild.rightChild.leftChild = new BinaryTreeNode<>(17, "H",
+                rootNode.leftChild.rightChild.rightChild);
+        rootNode.rightChild.leftChild.rightChild.leftChild = new BinaryTreeNode<>(401, "L",
+                rootNode.rightChild.leftChild.rightChild);
+        rootNode.rightChild.leftChild.rightChild.rightChild = new BinaryTreeNode<>(257, "N",
+                rootNode.rightChild.leftChild.rightChild);
 
         //depth 5
-        rootNode.rightChild.leftChild.rightChild.leftChild.rightChild = new BinaryTreeNode<>(641, "M");
+        rootNode.rightChild.leftChild.rightChild.leftChild.rightChild = new BinaryTreeNode<>(641, "M",
+                rootNode.rightChild.leftChild.rightChild.leftChild);
 
         return rootNode;
     }

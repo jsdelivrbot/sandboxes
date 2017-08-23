@@ -6,9 +6,17 @@ class BinaryTreeNode<T> {
     public BinaryTreeNode<T> leftChild;
     public BinaryTreeNode<T> rightChild;
 
+    public BinaryTreeNode<T> parent;
+
     public BinaryTreeNode (T data, String id) {
         this.data = data;
         this.id = id;
+    }
+
+    public BinaryTreeNode (T data, String id, BinaryTreeNode<T> parent) {
+        this(data, id);
+
+        this.parent = parent;
     }
 
     @Override
