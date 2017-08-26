@@ -1,0 +1,1 @@
+This project is for demoing/exploring various Java APIs and utility libraries (e.g. Guava).

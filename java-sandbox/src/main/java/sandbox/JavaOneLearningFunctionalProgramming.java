@@ -1,4 +1,4 @@
-package Sandbox;
+package sandbox;
 
 
 import com.google.common.collect.Lists;
