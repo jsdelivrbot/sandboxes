@@ -1,10 +1,10 @@
 package com.eopi.exercises.binarytrees;
 
-class BinaryTreeNode<T> {
+public class BinaryTreeNode<T> {
     public String id;
     public T data;
-    public BinaryTreeNode<T> leftChild;
-    public BinaryTreeNode<T> rightChild;
+    public BinaryTreeNode<T> left;
+    public BinaryTreeNode<T> right;
 
     public BinaryTreeNode<T> parent;
 
@@ -24,17 +24,17 @@ class BinaryTreeNode<T> {
         String retVal = "BinaryTreeNode{" +
                 "id='" + id + '\'' +
                 ", data=" + data +
-                ", leftChild=";
-        if (leftChild == null) {
+                ", left=";
+        if (left == null) {
             retVal += "null";
         } else {
-            retVal += leftChild.data;
+            retVal += left.data;
         }
-        retVal += ", rightChild=";
-        if (rightChild == null) {
+        retVal += ", right=";
+        if (right == null) {
             retVal += "null";
         } else {
-            retVal += rightChild.data;
+            retVal += right.data;
         }
         retVal += '}';
         return retVal;

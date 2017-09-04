@@ -15,16 +15,16 @@ public class Exercise9_1 {
         TreeNodeStatus rightChildStatus;
 
         //Post-order traversal - traverse left subtree first
-        if (rootNode.leftChild != null) {
-            leftChildStatus = getTreeNodeStatus(rootNode.leftChild);
+        if (rootNode.left != null) {
+            leftChildStatus = getTreeNodeStatus(rootNode.left);
         } else {
             leftChildStatus = new TreeNodeStatus();
         }
 
         //Only inspect right node's children if the left side is balanced.  If left side is not balanced, we can skip
         //the check as we know the tree as a whole is not balanced.
-        if (rootNode.rightChild != null && leftChildStatus.isBalanced()) {
-            rightChildStatus = getTreeNodeStatus(rootNode.rightChild);
+        if (rootNode.right != null && leftChildStatus.isBalanced()) {
+            rightChildStatus = getTreeNodeStatus(rootNode.right);
         } else {
             rightChildStatus = new TreeNodeStatus();
         }

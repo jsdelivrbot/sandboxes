@@ -10,34 +10,34 @@ public class Exercise9_4Test {
 
     @Test
     public void findLca_hasNonRootCommonAncestor_findsLca() {
-        BinaryTreeNode<Integer> firstNode = rootNode.rightChild.leftChild.rightChild.rightChild;
-        BinaryTreeNode<Integer> secondNode = rootNode.rightChild.leftChild.rightChild.leftChild.rightChild;
-        BinaryTreeNode<Integer> expectedLcaNode = rootNode.rightChild.leftChild.rightChild;
+        BinaryTreeNode<Integer> firstNode = rootNode.right.left.right.right;
+        BinaryTreeNode<Integer> secondNode = rootNode.right.left.right.left.right;
+        BinaryTreeNode<Integer> expectedLcaNode = rootNode.right.left.right;
 
         assertEquals(Exercise9_4.findLca(firstNode, secondNode), expectedLcaNode);
     }
 
     @Test
     public void findLca_hasRootCommonAncestor_findsRoot() {
-        BinaryTreeNode<Integer> firstNode = rootNode.leftChild.rightChild.rightChild;
-        BinaryTreeNode<Integer> secondNode = rootNode.rightChild.leftChild.rightChild;
+        BinaryTreeNode<Integer> firstNode = rootNode.left.right.right;
+        BinaryTreeNode<Integer> secondNode = rootNode.right.left.right;
 
         assertEquals(Exercise9_4.findLca(firstNode, secondNode), rootNode);
     }
 
     @Test
     public void findLcaEfficient_hasNonRootCommonAncestor_findsLca() {
-        BinaryTreeNode<Integer> firstNode = rootNode.rightChild.leftChild.rightChild.rightChild;
-        BinaryTreeNode<Integer> secondNode = rootNode.rightChild.leftChild.rightChild.leftChild.rightChild;
-        BinaryTreeNode<Integer> expectedLcaNode = rootNode.rightChild.leftChild.rightChild;
+        BinaryTreeNode<Integer> firstNode = rootNode.right.left.right.right;
+        BinaryTreeNode<Integer> secondNode = rootNode.right.left.right.left.right;
+        BinaryTreeNode<Integer> expectedLcaNode = rootNode.right.left.right;
 
         assertEquals(Exercise9_4.findLca_efficient(firstNode, secondNode), expectedLcaNode);
     }
 
     @Test
     public void findLcaEfficient_hasRootCommonAncestor_findsRoot() {
-        BinaryTreeNode<Integer> firstNode = rootNode.leftChild.rightChild.rightChild;
-        BinaryTreeNode<Integer> secondNode = rootNode.rightChild.leftChild.rightChild;
+        BinaryTreeNode<Integer> firstNode = rootNode.left.right.right;
+        BinaryTreeNode<Integer> secondNode = rootNode.right.left.right;
 
         assertEquals(Exercise9_4.findLca_efficient(firstNode, secondNode), rootNode);
     }
