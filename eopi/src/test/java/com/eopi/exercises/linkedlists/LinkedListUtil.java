@@ -5,7 +5,7 @@ import static org.testng.AssertJUnit.assertNull;
 
 public class LinkedListUtil {
 
-    static ListNode<Integer> createSequentialList() {
+    public static ListNode<Integer> createSequentialList() {
         return createLinkedList(new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
     }
 
@@ -25,7 +25,11 @@ public class LinkedListUtil {
         return head;
     }
 
-    static ListNode<Integer> createLinkedList(int[] data) {
+    public static ListNode<Integer> createLinkedList(int[] data) {
+        if (data == null || data.length == 0) {
+            return null;
+        }
+
         ListNode<Integer> head = new ListNode<>(data[0]);
 
         ListNode<Integer> cursor = head;
@@ -37,7 +41,7 @@ public class LinkedListUtil {
         return head;
     }
 
-    static void verifyListResult(ListNode<Integer> listHead, int[] expected) {
+    public static void verifyListResult(ListNode<Integer> listHead, int[] expected) {
         for (int expectedValue : expected) {
             assertEquals(expectedValue, listHead.data.intValue());
             listHead = listHead.next;

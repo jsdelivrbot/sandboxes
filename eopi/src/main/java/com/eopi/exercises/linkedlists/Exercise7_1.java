@@ -2,7 +2,11 @@ package com.eopi.exercises.linkedlists;
 
 public class Exercise7_1 {
 
-    static ListNode<Integer> mergeLinkedLists(ListNode<Integer> listHead1, ListNode<Integer> listHead2) {
+    /**
+     * Takes as input two sorted lists and merges them, returning one sorted list with all of the nodes of both input
+     * lists.
+     */
+    public static ListNode<Integer> mergeLinkedLists(ListNode<Integer> listHead1, ListNode<Integer> listHead2) {
         ListNode<Integer> mergedListHead = new ListNode<>(0, null);
         ListNode<Integer> mergedListIter = mergedListHead;
 
