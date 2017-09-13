@@ -7,7 +7,7 @@ public class Exercise13_10 {
 
     /**
      * An efficient, stable (i.e. the relative positions of equal elements must remain unchanged) sorting algorithm for
-     * linked lists.  We use mergesort because it also does not require random access, which is more suitable for linked
+     * linked lists.  We use mergesortIntArray because it also does not require random access, which is more suitable for linked
      * lists.
      */
     static ListNode<Integer> stableSortList(ListNode<Integer> head) {

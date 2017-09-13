@@ -42,6 +42,8 @@ public class Exercise14_1 {
         bfsQueue.add(new QueueEntry(root, Integer.MIN_VALUE, Integer.MAX_VALUE));
 
         QueueEntry headEntry;
+        //Pull an entry off the queue and verify that the associated node's data doesn't exceed any of the constraints
+        //that were calculated when we inserted the node into the queue
         while ((headEntry = bfsQueue.poll()) != null) {
             if (headEntry.treeNode != null) {
                 if (headEntry.treeNode.data < headEntry.lowerBound

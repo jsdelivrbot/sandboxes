@@ -44,6 +44,25 @@ public class BinaryTreeUtil {
     }
 
     /**
+     * Traverses the given binary tree using the "inorder" method - left subtree -> root -> right subtree
+     */
+    public static <T> List<T> inorderTraversalReturningTraversedKeys(BinaryTreeNode<T> rootNode) {
+        List<T> traversedNodes = new LinkedList<>();
+
+        if (rootNode.left != null) {
+            traversedNodes.addAll(inorderTraversalReturningTraversedKeys(rootNode.left));
+        }
+
+        traversedNodes.add(rootNode.data);
+
+        if (rootNode.right != null) {
+            traversedNodes.addAll(inorderTraversalReturningTraversedKeys(rootNode.right));
+        }
+
+        return traversedNodes;
+    }
+
+    /**
      * Traverses the given binary tree using the "postorder" method - left subtree -> right subtree -> root
      */
     public static <T> List<BinaryTreeNode<T>> postorderTraversal(BinaryTreeNode<T> rootNode) {
