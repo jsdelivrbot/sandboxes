@@ -1,71 +1,132 @@
 buildscript {
-	ext {
-		springBootVersion = '1.5.9.RELEASE'
-	}
-	repositories {
-		mavenCentral()
+    ext {
+        springBootVersion = '1.5.9.RELEASE'
+    }
+    repositories {
+        //jcenter()
+        mavenCentral()
         maven {
             url "https://plugins.gradle.org/m2/"
         }
-	}
-	dependencies {
-        classpath "gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.17.2"
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+    }
+    dependencies {
+        //classpath "com.bmuschko:gradle-docker-plugin:3.2.4"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    }
+}
+
+plugins {
+    id 'com.bmuschko.docker-remote-api' version '3.2.4'
 }
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
-apply plugin: 'com.palantir.docker'
+//apply plugin: 'com.bmuschko.docker-java-application'
 
-//plugins {
-//    id 'com.palantir.docker' version '0.17.2'
-//}
+
 
 group = 'com.example.aws'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
-
 ext {
-	springCloudVersion = 'Edgware.RELEASE'
+    springCloudVersion = 'Edgware.RELEASE'
 }
 
 dependencies {
-    compile 'com.amazonaws:aws-java-sdk-s3'
-    compile 'com.amazonaws:aws-java-sdk-ec2'
-    
-	compile('org.springframework.boot:spring-boot-starter-actuator')
-	compile('org.springframework.boot:spring-boot-actuator-docs')
+    //AWS SDK 1.x libs
+//    compile 'com.amazonaws:aws-java-sdk-s3'
+//    compile 'com.amazonaws:aws-java-sdk-ec2'
+
+    //AWS SDK 2.x libs
+    compile 'software.amazon.awssdk:s3:2.0.0-preview-8'
+    compile 'software.amazon.awssdk:dynamodb:2.0.0-preview-8'
+
+    compile('org.springframework.boot:spring-boot-starter-actuator')
+    compile('org.springframework.boot:spring-boot-actuator-docs')
 //	compile('org.springframework.cloud:spring-cloud-starter-aws')
 //	compile('org.springframework.cloud:spring-cloud-starter-aws-jdbc')
 //	compile('org.springframework.cloud:spring-cloud-starter-aws-messaging')
 //	compile('org.springframework.boot:spring-boot-starter-data-cassandra')
-	compile('org.springframework.boot:spring-boot-starter-data-rest')
+    compile('org.springframework.boot:spring-boot-starter-data-rest')
 //	compile('org.springframework.boot:spring-boot-starter-security')
-	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('org.springframework.boot:spring-boot-starter-websocket')
-	runtime('org.springframework.boot:spring-boot-devtools')
-	compileOnly('org.projectlombok:lombok')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
-	testCompile('org.springframework.security:spring-security-test')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-websocket')
+    runtime('org.springframework.boot:spring-boot-devtools')
+    compileOnly('org.projectlombok:lombok')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('org.springframework.security:spring-security-test')
 }
 
 dependencyManagement {
-	imports {
-		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
         mavenBom 'com.amazonaws:aws-java-sdk-bom:1.11.228'
-	}
+    }
 }
 
 
+//////DOCKER CONFIGURATION/////
+
+
 docker {
-    name "${project.group}/${jar.baseName}"
-    files jar.archivePath
-    buildArgs(['JAR_FILE': "${jar.archiveName}"])
+    registryCredentials {
+        username = getConfigurationProperty('DOCKER_USERNAME', 'docker.username')
+        password = getConfigurationProperty('DOCKER_PASSWORD', 'docker.password')
+        email = getConfigurationProperty('DOCKER_EMAIL', 'docker.email')
+    }
+}
+
+/**
+ * Loads configuration values from either an environment variable (if envVar is present as an environment variable),
+ * or from a Gradle project property in a gradle.properties file.
+ */
+String getConfigurationProperty(String envVar, String sysProp) {
+    System.getenv(envVar) ?: project.findProperty(sysProp)
+}
+
+/**
+ * The following tasks are used to create a Dockerfile for the springboot web app
+ */
+import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+task createDockerfile(type: Dockerfile) {
+    destFile = project.file('build/docker/Dockerfile')
+    from 'openjdk:8-jre-alpine'
+    maintainer 'Dustin Stanley "dustin.stanley@gmail.com"'
+    copyFile jar.archiveName, '/app/spring-web-service.jar'
+    entryPoint 'java'
+    defaultCommand '-jar', '/app/spring-web-service.jar'
+    exposePort 8080
+    runCommand 'apk --update --no-cache add curl'
+    instruction 'HEALTHCHECK CMD curl -f http://localhost:8080/health || exit 1'
+}
+task syncWebAppArchive(type: Sync) {
+    dependsOn assemble
+    from jar.archivePath
+    into createDockerfile.destFile.parentFile
+}
+createDockerfile.dependsOn syncWebAppArchive
+
+/**
+ * The following task creates an image from the dockerfile
+ */
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+task buildImage(type: DockerBuildImage) {
+    dependsOn createDockerfile
+    inputDir = createDockerfile.destFile.parentFile
+    tag = "dustinstanley/spring-web-service:$jar.version"
+}
+
+/**
+ * Pushes an image to a registry
+ */
+import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
+task pushImage(type: DockerPushImage) {
+    dependsOn buildImage
+    conventionMapping.imageName = { buildImage.getTag() }
 }

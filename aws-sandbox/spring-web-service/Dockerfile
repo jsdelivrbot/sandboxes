@@ -1,3 +1,4 @@
+#Currently not used - look at build.gradle file for the tasks that build a Dockerfile
 FROM openjdk:8u151-jdk
 
 VOLUME /tmp

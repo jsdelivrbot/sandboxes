@@ -1,0 +1,1 @@
+A simple REST application that tests the functionality of the AWS Java SDK v2 API.
