@@ -19,7 +19,7 @@ public class SpringDataBulkInsertStepDefs extends AbstractStepDefinitions implem
         });
         Then("^With a repository I verify that the (\\d+) records are inserted correctly$", (Integer numRecords) -> {
             List<Person> people = repository.findAll();
-            people.forEach(person -> System.out.println(person.toString()));
+            //people.forEach(person -> System.out.println(person.toString()));
             Assert.assertEquals(people.size(), numRecords.intValue());
         });
         Then("^With a repository I clean up the Person table$", () -> {
